@@ -45,4 +45,14 @@ class ProductRatio extends \yii\db\ActiveRecord
             'ratio' => 'Ratio',
         ];
     }
+
+    public function getProduct()
+    {
+        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+    }
+
+    public function getSubproduct()
+    {
+        return $this->hasOne(SubProduct::className(), ['id' => 'sub_product_id']);
+    }
 }

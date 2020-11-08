@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'language' => 'ru',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -22,6 +23,8 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => false,
+            'enableSession' => true,
+            'loginUrl' => 'site/login',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

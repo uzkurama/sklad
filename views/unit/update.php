@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Unit */
 
-$this->title = 'Update Unit: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Units', 'url' => ['index']];
+$this->title = 'Редактировать ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Единицы измерения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактировать';
 ?>
 <div class="unit-update">
 

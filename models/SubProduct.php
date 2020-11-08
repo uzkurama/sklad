@@ -32,9 +32,11 @@ class SubProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name', 'count', 'price', 'product_id', 'unit_id', 'created_at', 'updated_at'], 'required'],
-            [['id', 'count', 'price', 'product_id', 'unit_id', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'count', 'price', 'unit_id'], 'required'],
+            [['count', 'price', 'unit_id', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 100],
+            [['created_at'], 'default', 'value' => date('U')],
+            [['updated_at'], 'default', 'value' => null],
         ];
     }
 
@@ -45,13 +47,23 @@ class SubProduct extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'count' => 'Count',
-            'price' => 'Price',
-            'product_id' => 'Product ID',
-            'unit_id' => 'Unit ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'name' => 'Название',
+            'count' => 'Кол-во',
+            'price' => 'Цена',
+            'unit_id' => 'Единица измерения',
+            'unit.name' => 'Единица измерения',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата изменения',
         ];
+    }
+
+    public function getUnit()
+    {
+        return $this->hasOne(Unit::className(), ['id' => 'unit_id']);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
 }

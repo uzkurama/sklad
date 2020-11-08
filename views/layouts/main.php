@@ -38,21 +38,25 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
+            ['label' => 'Главная', 'url' => ['/site/index']],
+            ['label' => 'Аренда', 'url' => ['/rent/index']],
+            ['label' => 'Продажа', 'url' => ['/sale/index']],
+            [
+                'label' => 'Склад',
+                'items' => [
+                    ['label' => 'Продукты', 'url' => ['/product/index']],
+                    ['label' => 'Компоненты', 'url' => ['/sub-product/index']],
+                ],
+            ],
+            ['label' => 'Клиентская база', 'url' => ['/client/index']],
+            [
+                'label' => 'Настройки',
+                'items' => [
+                    ['label' => 'Единицы измерения', 'url' => ['/unit/index']],
+                    ['label' => 'Типы продукций', 'url' => ['/type/index']],
+                ],
+            ],
+            ['label' => 'Logout'. ' ('.Yii::$app->user->identity->username.')', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
         ],
     ]);
     NavBar::end();

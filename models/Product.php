@@ -18,6 +18,7 @@ use Yii;
  */
 class Product extends \yii\db\ActiveRecord
 {
+    public $ratio;
     /**
      * {@inheritdoc}
      */
@@ -32,10 +33,13 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'type_id', 'unit_id', 'created_at'], 'required'],
+            [['name', 'type_id', 'unit_id'], 'required'],
             [['count', 'price', 'unit_id', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 100],
             [['type_id'], 'string', 'max' => 20],
+            [['created_at'], 'default', 'value' => date('U')],
+            [['updated_at'], 'default', 'value' => null],
+            [['ratio'], 'safe'],
         ];
     }
 
@@ -46,13 +50,26 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'type_id' => 'Type ID',
-            'count' => 'Count',
-            'price' => 'Price',
-            'unit_id' => 'Unit ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'name' => 'Название',
+            'type_id' => 'Тип продукта',
+            'type.name' => 'Тип продукта',
+            'count' => 'Кол-во',
+            'ratio' => 'Комплект',
+            'price' => 'Цена',
+            'unit_id' => 'Единица измерения',
+            'unit.name' => 'Единица измерения',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата изменения',
         ];
+    }
+
+    public function getUnit()
+    {
+        return $this->hasOne(Unit::className(), ['id' => 'unit_id']);
+    }
+
+    public function getType()
+    {
+        return $this->hasOne(Type::className(), ['id' => 'type_id']);
     }
 }

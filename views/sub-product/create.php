@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Client */
+/* @var $model app\models\SubProduct */
 
-$this->title = 'Добавить клиента';
-$this->params['breadcrumbs'][] = ['label' => 'Клиенты', 'url' => ['index']];
+$this->title = 'Добавить компонент';
+$this->params['breadcrumbs'][] = ['label' => 'Компоненты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="client-create">
+<div class="sub-product-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

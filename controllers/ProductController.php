@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\ProductRatio;
 use Yii;
 use app\models\Product;
 use app\models\ProductSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +22,22 @@ class ProductController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [
+                            'index',
+                            'view',
+                            'create',
+                            'update',
+                            'delete',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -54,6 +72,7 @@ class ProductController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'ratio' => ProductRatio::find()->where(['product_id' => $id])->all(),
         ]);
     }
 
@@ -66,7 +85,18 @@ class ProductController extends Controller
     {
         $model = new Product();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $ratio = $model->ratio;
+            $model->save();
+
+            if(isset($ratio) && count($ratio) != 0)
+            foreach ($ratio as $r){
+                $product_ratio = new ProductRatio();
+                $product_ratio->product_id = $model->id;
+                $product_ratio->sub_product_id = $r['component_id'];
+                $product_ratio->ratio = $r['count'];
+                $product_ratio->save();
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -85,8 +115,28 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $ratio = ProductRatio::find()->select(['sub_product_id', 'ratio'])->where(['product_id' => $id])->asArray()->all();
+        for($i=0;$i < count($ratio);$i++){
+            $model->ratio[$i]['component_id'] = $ratio[$i]['sub_product_id'];
+            $model->ratio[$i]['count'] = $ratio[$i]['ratio'];
+        }
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated_at = date('U');
+            $ratio = $model->ratio;
+            $model->save();
+            if(isset($ratio) && count($ratio) != 0) {
+                $delete = ProductRatio::find()->select(['id'])->where(['product_id' => $id])->all();
+                foreach ($delete as $d){
+                    ProductRatio::findOne($d)->delete();
+                }
+                foreach ($ratio as $r) {
+                    $product_ratio = new ProductRatio();
+                    $product_ratio->product_id = $model->id;
+                    $product_ratio->sub_product_id = $r['component_id'];
+                    $product_ratio->ratio = $r['count'];
+                    $product_ratio->save();
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

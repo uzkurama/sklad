@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ClientSearch */
+/* @var $searchModel app\models\SubProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Клиенты';
+$this->title = 'Компоненты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="client-index">
+<div class="sub-product-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -27,20 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'first_name',
-            'last_name',
-            'phone',
-            'type',
-            //'tin',
-            //'checking_acc',
-            //'mfo',
-            //'org_name',
-            //'passport_serial',
-            //'passport_number',
-            'status',
-            //'comments:ntext',
-            //'created_at',
-            //'updated_at',
+            'name',
+            'count',
+            'price',
+            'unit.name',
+            'created_at:date',
+            'updated_at:date',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

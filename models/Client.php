@@ -40,7 +40,7 @@ class Client extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'phone', 'type', 'tin', 'checking_acc', 'mfo', 'org_name', 'passport_serial', 'passport_number', 'status', 'comments', 'created_at', 'updated_at'], 'required'],
+            [['first_name', 'last_name', 'phone', 'type', 'passport_serial', 'passport_number'], 'required'],
             [['type', 'comments'], 'string'],
             [['passport_number', 'created_at', 'updated_at'], 'integer'],
             [['first_name', 'last_name', 'middle_name', 'org_name'], 'string', 'max' => 100],
@@ -48,6 +48,9 @@ class Client extends \yii\db\ActiveRecord
             [['tin', 'passport_serial'], 'string', 'max' => 10],
             [['mfo'], 'string', 'max' => 9],
             [['status'], 'string', 'max' => 50],
+            [['status'], 'default', 'value' => 'normal'],
+            [['created_at'], 'default', 'value' => date('U')],
+            [['updated_at'], 'default', 'value' => null],
         ];
     }
 
@@ -58,19 +61,19 @@ class Client extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
-            'middle_name' => 'Middle Name',
-            'phone' => 'Phone',
-            'type' => 'Type',
-            'tin' => 'Tin',
-            'checking_acc' => 'Checking Acc',
-            'mfo' => 'Mfo',
-            'org_name' => 'Org Name',
-            'passport_serial' => 'Passport Serial',
-            'passport_number' => 'Passport Number',
-            'status' => 'Status',
-            'comments' => 'Comments',
+            'first_name' => 'Имя',
+            'last_name' => 'Фамилия',
+            'middle_name' => 'Отчество',
+            'phone' => 'Телефон',
+            'type' => 'Тип',
+            'tin' => 'ИНН',
+            'checking_acc' => 'Р/С',
+            'mfo' => 'МФО',
+            'org_name' => 'Наименование организации',
+            'passport_serial' => 'Паспорт серия',
+            'passport_number' => 'Паспорт номер',
+            'status' => 'Статус',
+            'comments' => 'Комментарий',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

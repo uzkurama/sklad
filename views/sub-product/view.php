@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Unit */
+/* @var $model app\models\SubProduct */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Единицы измерения', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Компоненты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="unit-view">
+<div class="sub-product-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -31,6 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
+            'count',
+            'price',
+            'unit.name',
+            'created_at:date',
+            'updated_at:date',
         ],
     ]) ?>
 

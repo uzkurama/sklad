@@ -3,17 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Sale;
-use app\models\SaleSearch;
+use app\models\SubProduct;
+use app\models\SubProductSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * SaleController implements the CRUD actions for Sale model.
+ * SubProductController implements the CRUD actions for SubProduct model.
  */
-class SaleController extends Controller
+class SubProductController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -47,12 +47,12 @@ class SaleController extends Controller
     }
 
     /**
-     * Lists all Sale models.
+     * Lists all SubProduct models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new SaleSearch();
+        $searchModel = new SubProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,7 +62,7 @@ class SaleController extends Controller
     }
 
     /**
-     * Displays a single Sale model.
+     * Displays a single SubProduct model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -75,13 +75,13 @@ class SaleController extends Controller
     }
 
     /**
-     * Creates a new Sale model.
+     * Creates a new SubProduct model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Sale();
+        $model = new SubProduct();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -93,7 +93,7 @@ class SaleController extends Controller
     }
 
     /**
-     * Updates an existing Sale model.
+     * Updates an existing SubProduct model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -113,7 +113,7 @@ class SaleController extends Controller
     }
 
     /**
-     * Deletes an existing Sale model.
+     * Deletes an existing SubProduct model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -127,15 +127,15 @@ class SaleController extends Controller
     }
 
     /**
-     * Finds the Sale model based on its primary key value.
+     * Finds the SubProduct model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Sale the loaded model
+     * @return SubProduct the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Sale::findOne($id)) !== null) {
+        if (($model = SubProduct::findOne($id)) !== null) {
             return $model;
         }
 

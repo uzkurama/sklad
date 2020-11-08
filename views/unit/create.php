@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Unit */
 
-$this->title = 'Create Unit';
-$this->params['breadcrumbs'][] = ['label' => 'Units', 'url' => ['index']];
+$this->title = 'Добавить единицу измерения';
+$this->params['breadcrumbs'][] = ['label' => 'Единицы измерения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="unit-create">
