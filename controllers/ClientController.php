@@ -6,6 +6,7 @@ use Yii;
 use app\models\Client;
 use app\models\ClientSearch;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -31,6 +32,7 @@ class ClientController extends Controller
                             'create',
                             'update',
                             'delete',
+                            'validate-client',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -44,6 +46,26 @@ class ClientController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionValidateClient()
+    {
+        if(Yii::$app->request->post() && Yii::$app->request->isAjax){
+            $client_id = Yii::$app->request->post('id');
+            $client = Client::findOne($client_id);
+            if($client->status != 'blocked'){
+                $arr['client_name'] = $client->last_name.' '.$client->first_name;
+                $arr['status'] = 'ok';
+                $arr['message'] = 'Клиент не в чёрном списке';
+            }
+            else{
+                $arr['status'] = 'neok';
+                $arr['message'] = 'Клиент в чёрном списке';
+            }
+            $json = Json::encode($arr);
+
+            return $json;
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$ip = '82.215.98.162';
 
 $config = [
     'id' => 'basic',
@@ -24,7 +25,7 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => false,
             'enableSession' => true,
-            'loginUrl' => 'site/login',
+            'loginUrl' => '/site/login',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -60,14 +61,14 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['82.215.98.162', '::1'],
+        'allowedIPs' => [$ip, '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['82.215.98.162', '::1'],
+        'allowedIPs' => [$ip, '::1'],
     ];
 }
 

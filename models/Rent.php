@@ -52,17 +52,17 @@ class Rent extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'product_id' => 'Product ID',
-            'price' => 'Price',
-            'count' => 'Count',
-            'payment' => 'Payment',
+            'price' => 'Цена',
+            'count' => 'Кол-во',
+            'payment' => 'Оплата',
             'user_id' => 'User ID',
-            'comments' => 'Comments',
+            'comments' => 'Комментарий',
             'client_id' => 'Client ID',
-            'expiry_date' => 'Expiry Date',
+            'expiry_date' => 'Срок до',
             'delivery_price' => 'Delivery Price',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'status' => 'Статус',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата изменения',
         ];
     }
 }

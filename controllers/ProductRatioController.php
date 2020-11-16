@@ -29,6 +29,17 @@ class ProductRatioController extends Controller
         ];
     }
 
+    public function actionAddComponents(){
+        if(Yii::$app->request->post() && Yii::$app->request->isAjax) {
+            $product_id = Yii::$app->request->post('id');
+
+            $ratio = ProductRatio::find()->where(['product_id' => $product_id])->all();
+            $arr['count'] = count($ratio);
+            $arr['ratio'] = $ratio;
+            return true;
+        }
+    }
+
     /**
      * Lists all ProductRatio models.
      * @return mixed

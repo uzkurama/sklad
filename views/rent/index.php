@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\RentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Rents';
+$this->title = 'Аренда';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rent-index">
@@ -15,34 +15,32 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Rent', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <div class="table-responsive">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            'client_id',
             'product_id',
             'price',
             'count',
             'payment',
+            'expiry_date',
+            'status',
             //'user_id',
             //'comments:ntext',
-            //'client_id',
-            //'expiry_date',
             //'delivery_price',
-            //'status',
             //'created_at',
             //'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
+    </div>
 
 </div>
