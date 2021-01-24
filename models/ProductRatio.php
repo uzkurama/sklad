@@ -14,6 +14,7 @@ use Yii;
  */
 class ProductRatio extends \yii\db\ActiveRecord
 {
+    public $component_value = 0;
     /**
      * {@inheritdoc}
      */

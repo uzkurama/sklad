@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Rent */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Rents', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Аренда', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -16,11 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Точно?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -30,18 +30,34 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'product_id',
-            'price',
+            [
+                'attribute' => 'client_id',
+                'format' => 'raw',
+                'value' => function($model){
+                    return $model->client->last_name.' '.$model->client->first_name;
+                }
+            ],
+            [
+                'attribute' => 'product_id',
+                'format' => 'raw',
+                'value' => function($model){
+                    $b = 'Продукт: '.$model->product->name.'<br>';
+                    for($i=0; $i<count($model->product_id['components']); $i++){
+                        $b .= $model->product_id['components'][$i]["component_name"].': '.$model->product_id['components'][$i]['component_value'].'<br>';
+                    }
+                    return $b;
+                }
+            ],
+            'price:currency',
             'count',
-            'payment',
+            'payment:currency',
             'user_id',
             'comments:ntext',
-            'client_id',
-            'expiry_date',
-            'delivery_price',
+            'expiry_date:date',
+            'delivery_price:currency',
             'status',
-            'created_at',
-            'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

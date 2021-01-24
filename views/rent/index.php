@@ -3,10 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\RentSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Аренда';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -18,25 +14,34 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Создать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="table-responsive">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'client_id',
-            'product_id',
-            'price',
+            [
+                'attribute' => 'client_id',
+                'format' => 'raw',
+                'value' => function($model){
+                    return $model->client->last_name.' '.$model->client->first_name;
+                }
+            ],
+            [
+                'attribute' => 'product_id',
+                'format' => 'raw',
+                'value' => function($model){
+                    $b = 'Продукт: '.$model->product->name.'<br>';
+                    for($i=0; $i<count($model->product_id['components']); $i++){
+                        $b .= $model->product_id['components'][$i]["component_name"].': '.$model->product_id['components'][$i]['component_value'].'<br>';
+                    }
+                    return $b;
+                }
+            ],
+            'price:currency',
             'count',
-            'payment',
-            'expiry_date',
-            'status',
-            //'user_id',
-            //'comments:ntext',
-            //'delivery_price',
-            //'created_at',
-            //'updated_at',
+            'payment:currency',
+            'expiry_date:date',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

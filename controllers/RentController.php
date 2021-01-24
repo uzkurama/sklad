@@ -7,6 +7,7 @@ use Yii;
 use app\models\Rent;
 use app\models\RentSearch;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -84,7 +85,22 @@ class RentController extends Controller
     {
         $model = new Rent();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $rent = Yii::$app->request->post('Component');
+            $arr['product_id'] = $model->product_id;
+            $arr['components'] = $rent;
+            $model->product_id = $arr;
+            if($model->price <= $model->payment){
+                $model->status = 'paid';
+            }
+            else{
+                $model->status = 'debt';
+            }
+            $model->created_at = date('U');
+            $model->expiry_date = strtotime($model->expiry_date);
+            $model->updated_at = null;
+            $model->user_id = Yii::$app->user->identity->id;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -103,13 +119,30 @@ class RentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $ratio = \app\models\ProductRatio::find()->where(['product_id' => $model->product_id['product_id']])->all();
+        $model->product_id = $model->product_id['product_id'];
+        if ($model->load(Yii::$app->request->post())) {
+            $rent = Yii::$app->request->post('Component');
+            $arr['product_id'] = $model->product_id;
+            $arr['components'] = $rent;
+            $model->product_id = $arr;
+            if($model->price <= $model->payment){
+                $model->status = 'paid';
+            }
+            else{
+                $model->status = 'debt';
+            }
+            $model->created_at = date('U');
+            $model->expiry_date = strtotime($model->expiry_date);
+            $model->updated_at = null;
+            $model->user_id = Yii::$app->user->identity->id;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'ratio' => $ratio,
         ]);
     }
 

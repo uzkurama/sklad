@@ -14,6 +14,10 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'formatter' => [
+            'thousandSeparator' => ',',
+            'currencyCode' => 'sõm',
+        ],
         'request' => [
             'baseUrl' => '',
             'cookieValidationKey' => 'DKV9N6Oq_akdYlYg2_tsscYT-qlSUPXq',

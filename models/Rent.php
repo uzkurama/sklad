@@ -23,6 +23,8 @@ use Yii;
  */
 class Rent extends \yii\db\ActiveRecord
 {
+
+    public $p_id;
     /**
      * {@inheritdoc}
      */
@@ -37,9 +39,10 @@ class Rent extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'price', 'count', 'user_id', 'client_id', 'expiry_date', 'status', 'created_at'], 'required'],
-            [['product_id', 'price', 'count', 'payment', 'user_id', 'client_id', 'expiry_date', 'delivery_price', 'created_at', 'updated_at'], 'integer'],
+            [['price', 'count', 'user_id', 'client_id', 'expiry_date', 'status', 'created_at'], 'required'],
+            [['price', 'count', 'payment', 'user_id', 'client_id', 'delivery_price', 'created_at', 'updated_at'], 'integer'],
             [['comments'], 'string'],
+            [['product_id', 'expiry_date'], 'safe'],
             [['status'], 'string', 'max' => 50],
         ];
     }
@@ -51,18 +54,29 @@ class Rent extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'product_id' => 'Product ID',
+            'product_id' => 'Продукции',
             'price' => 'Цена',
             'count' => 'Кол-во',
             'payment' => 'Оплата',
             'user_id' => 'User ID',
             'comments' => 'Комментарий',
-            'client_id' => 'Client ID',
+            'client_id' => 'Клиент',
             'expiry_date' => 'Срок до',
-            'delivery_price' => 'Delivery Price',
+            'delivery_price' => 'Цена доставки',
             'status' => 'Статус',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата изменения',
         ];
+    }
+
+    public function getClient()
+    {
+        return $this->hasOne(Client::className(), ['id' => 'client_id']);
+    }
+
+    public function getProduct()
+    {
+        $this->p_id = $this->product_id['product_id'];
+        return $this->hasOne(Product::className(), ['id' => 'p_id']);
     }
 }

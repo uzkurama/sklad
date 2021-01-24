@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\ProductRatio;
 use app\models\ProductRatioSearch;
+use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +22,24 @@ class ProductRatioController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [
+                            'index',
+                            'view',
+                            'create',
+                            'update',
+                            'delete',
+                            'add-components',
+                            'calculate',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -29,14 +49,33 @@ class ProductRatioController extends Controller
         ];
     }
 
+    public function actionCalculate()
+    {
+        if(Yii::$app->request->post() && Yii::$app->request->isPjax) {
+            $product_id = Yii::$app->request->post('product_id');
+            $count = Yii::$app->request->post('count');
+
+            $ratio = ProductRatio::find()->where(['product_id' => $product_id])->all();
+            $component_values = [];
+            foreach ($ratio as $r){
+               $r->component_value = $r->ratio * $count;
+            }
+            return $this->renderAjax('/rent/_components_form', [
+                'ratio' => $ratio,
+            ]);
+        }
+    }
+
     public function actionAddComponents(){
-        if(Yii::$app->request->post() && Yii::$app->request->isAjax) {
+        if(Yii::$app->request->post() && Yii::$app->request->isPjax) {
             $product_id = Yii::$app->request->post('id');
 
             $ratio = ProductRatio::find()->where(['product_id' => $product_id])->all();
-            $arr['count'] = count($ratio);
-            $arr['ratio'] = $ratio;
-            return true;
+
+            return $this->renderAjax('/rent/_components_form', [
+                'ratio' => $ratio,
+                'component_values' => 0,
+            ]);
         }
     }
 
